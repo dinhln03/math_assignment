@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from html import escape
 from math import isfinite
+from time import perf_counter
 from typing import Any, Iterable, Mapping, Sequence
 
 import numpy as np
@@ -16,6 +17,15 @@ def _display_html(html: str) -> str:
 
     display(HTML(html))
     return html
+
+
+def time_method(name: str, func: Any, *args: Any, **kwargs: Any) -> tuple[Any, float]:
+    """Run a method once and print its elapsed wall-clock time."""
+    start = perf_counter()
+    result = func(*args, **kwargs)
+    elapsed = perf_counter() - start
+    print(f"{name} time: {elapsed:.6f} seconds")
+    return result, elapsed
 
 
 def _format_value(value: Any, precision: int = 2) -> str:
